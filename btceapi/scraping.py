@@ -1,6 +1,6 @@
 # Copyright (c) 2013 Alan McIntyre
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 import datetime
 import warnings
 from btceapi.common import BTCEConnection, all_pairs
