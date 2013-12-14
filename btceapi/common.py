@@ -92,7 +92,7 @@ class BTCEConnection:
         if match:
             self.cookie = "__cfduid=" + match.group(1)
 
-        match = BODY_COOKIE_RE.search(response.read())
+        match = BODY_COOKIE_RE.search(response.read().decode())
         if match:
             if self.cookie != "":
                 self.cookie += '; '
@@ -110,7 +110,7 @@ class BTCEConnection:
             headers.update({"Cookie": self.cookie})
 
         self.conn.request("POST", url, params, headers)
-        response = self.conn.getresponse().read()
+        response = self.conn.getresponse().read().decode()
 
         return response
 
