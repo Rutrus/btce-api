@@ -30,7 +30,7 @@ for key in handler.getKeys():
         print("\tItems in transaction history: %r" % r.transaction_count)
         print("\tNumber of open orders: %r" % r.open_orders)
         print("\topen orders:")
-        orders = t.orderList(connection = conn)
+        orders = t.activeOrders(connection = conn)
         for o in orders:
             print("\t\torder id: %r" % o.order_id)
             print("\t\t    type: %s" % o.type)
