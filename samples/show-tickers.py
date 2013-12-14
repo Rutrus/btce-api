@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import btceapi
 
 attrs = ('high', 'low', 'avg', 'vol', 'vol_cur', 'last',
