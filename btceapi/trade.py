@@ -145,10 +145,10 @@ class TradeAPI(object):
 
     def _post(self, params, connection=None, raiseIfInvalidNonce=False):
         params["nonce"] = self.handler.getNextNonce(self.key)
-        encoded_params = urllib.parse.urlencode(params)
+        encoded_params = urllib.parse.urlencode(params).encode()
 
         # Hash the params string to produce the Sign header value
-        H = hmac.new(self.secret, digestmod=hashlib.sha512)
+        H = hmac.new(self.secret.encode(), digestmod=hashlib.sha512)
         H.update(encoded_params)
         sign = H.hexdigest()
 
