@@ -68,7 +68,7 @@ class TradeHistoryItem(object):
 
 class OrderItem(object):
     '''A list of instances of this class will be returned by
-    a successful call to TradeAPI.orderList.'''
+    a successful call to TradeAPI.activeOrders.'''
 
     def __init__(self, order_id, info):
         self.order_id = int(order_id)
@@ -124,15 +124,7 @@ def setHistoryParams(params, from_number, count_number, from_id, end_id,
 
 
 class TradeAPI(object):
-    def __init__(self, key, handler, secret=None, nonce=1):
-        if secret is not None:
-            warnings.warn("The 'secret' argument is no longer used and will"
-                          " be removed in a future version.")
-
-        if nonce is not 1:
-            warnings.warn("The 'nonce' argument is no longer used and will"
-                          " be removed in a future version.")
-
+    def __init__(self, key, handler):
         self.key = key
         self.handler = handler
 
@@ -250,34 +242,6 @@ class TradeAPI(object):
         if pair is not None:
             common.validatePair(pair)
             params["pair"] = pair
-
-        orders = self._post(params, connection)
-        result = []
-        for k, v in list(orders.items()):
-            result.append(OrderItem(k, v))
-
-        return result
-
-    def orderList(self, from_number=None, count_number=None,
-                  from_id=None, end_id=None, order=None,
-                  since=None, end=None, pair=None, active=None,
-                  connection=None):
-
-        warnings.warn("OrderList will be removed from the server on "
-                      "December 1, 2013.")
-
-        params = {"method": "OrderList"}
-
-        setHistoryParams(params, from_number, count_number, from_id, end_id,
-                         order, since, end)
-
-        if pair is not None:
-            common.validatePair(pair)
-            params["pair"] = pair
-        if active is not None:
-            if active not in (0, 1, True, False):
-                raise Exception("Unexpected active parameter: %r" % active)
-            params["active"] = int(active)
 
         orders = self._post(params, connection)
         result = []
