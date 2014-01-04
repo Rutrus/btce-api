@@ -42,7 +42,7 @@ class Ticker(object):
         return dict((k, getattr(self, k)) for k in Ticker.__slots__)
 
     def __setstate__(self, state):
-        for k, v in state.items():
+        for k, v in list(state.items()):
             setattr(self, k, v)
 
 
@@ -107,7 +107,7 @@ class Trade(object):
         return dict((k, getattr(self, k)) for k in Trade.__slots__)
 
     def __setstate__(self, state):
-        for k, v in state.items():
+        for k, v in list(state.items()):
             setattr(self, k, v)
 
 
