@@ -54,7 +54,7 @@ class KeyHandler(object):
         return list(self._keys.keys())
 
     def save(self, filename):
-        f = open(filename, "wt")
+        f = open(filename, "wt", encoding="utf-8")
         for k, data in list(self._keys.items()):
             f.write("%s\n%s\n%d\n" % (k, data.secret, data.nonce))
 
