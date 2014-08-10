@@ -5,6 +5,18 @@ import json
 import decimal
 import re
 
+class InvalidTradePairException(Exception):
+    ''' Exception raised when an invalid pair is passed. '''
+    pass
+
+class InvalidTradeTypeException(Exception):
+    ''' Exception raise when invalid trade type is passed. '''
+    pass
+
+class InvalidTradeAmountException(Exception):
+    ''' Exception raised if trade amount is too much or too little. '''
+    pass
+
 decimal.getcontext().rounding = decimal.ROUND_DOWN
 exps = [decimal.Decimal("1e-%d" % i) for i in range(16)]
 
@@ -14,8 +26,8 @@ all_currencies = ("btc", "usd", "rur", "ltc", "nmc", "eur", "nvc",
                   "trc", "ppc", "ftc", "xpm")
 all_pairs = ("btc_usd", "btc_rur", "btc_eur", "ltc_btc", "ltc_usd",
              "ltc_rur", "ltc_eur", "nmc_btc", "nmc_usd", "nvc_btc",
-             "nvc_usd", "usd_rur", "eur_usd", "trc_btc", "ppc_btc",
-             "ppc_usd", "ftc_btc", "xpm_btc")
+             "nvc_usd", "usd_rur", "eur_usd", "eur_rur", "trc_btc",
+             "ppc_btc", "ppc_usd", "ftc_btc", "xpm_btc")
 
 max_digits = {"btc_usd": 3,
               "btc_rur": 5,
@@ -30,6 +42,7 @@ max_digits = {"btc_usd": 3,
               "nvc_usd": 3,
               "usd_rur": 5,
               "eur_usd": 5,
+              "eur_rur": 5,
               "trc_btc": 5,
               "ppc_btc": 5,
               "ppc_usd": 3,
@@ -49,6 +62,7 @@ min_orders = {"btc_usd": decimal.Decimal("0.01"),
               "nvc_usd": decimal.Decimal("0.1"),
               "usd_rur": decimal.Decimal("0.1"),
               "eur_usd": decimal.Decimal("0.1"),
+              "eur_rur": decimal.Decimal("0.1"),
               "trc_btc": decimal.Decimal("0.1"),
               "ppc_btc": decimal.Decimal("0.1"),
               "ppc_usd": decimal.Decimal("0.1"),
@@ -122,30 +136,34 @@ class BTCEConnection:
 def validatePair(pair):
     if pair not in all_pairs:
         if "_" in pair:
-            a, b = pair.split("_")
+            a, b = pair.split("_", 1)
             swapped_pair = "%s_%s" % (b, a)
             if swapped_pair in all_pairs:
                 msg = "Unrecognized pair: %r (did you mean %s?)"
                 msg = msg % (pair, swapped_pair)
-                raise Exception(msg)
-        raise Exception("Unrecognized pair: %r" % pair)
+                raise InvalidTradePairException(msg)
+        raise InvalidTradePairException("Unrecognized pair: %r" % pair)
 
 
 def validateOrder(pair, trade_type, rate, amount):
     validatePair(pair)
     if trade_type not in ("buy", "sell"):
-        raise Exception("Unrecognized trade type: %r" % trade_type)
+        raise InvalidTradeTypeException("Unrecognized trade type: %r" % trade_type)
 
     minimum_amount = min_orders[pair]
     formatted_min_amount = formatCurrency(minimum_amount, pair)
     if amount < minimum_amount:
         msg = "Trade amount too small; should be >= %s" % formatted_min_amount
-        raise Exception(msg)
+        raise InvalidTradeAmountException(msg)
 
 
 def truncateAmountDigits(value, digits):
     quantum = exps[digits]
-    return decimal.Decimal(value).quantize(quantum)
+    if type(value) is float:
+        value = str(value)
+    if type(value) is str:
+        value = decimal.Decimal(value)
+    return value.quantize(quantum)
 
 
 def truncateAmount(value, pair):
