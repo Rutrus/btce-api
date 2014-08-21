@@ -33,9 +33,6 @@ class KeyHandler(object):
                 nonce = int(f.readline().strip())
                 self.addKey(key, secret, nonce)
 
-    def __del__(self):
-        self.close()
-
     def close(self):
         if self.resaveOnDeletion:
             self.save(self.filename)
