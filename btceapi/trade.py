@@ -138,7 +138,7 @@ class TradeAPI(object):
         # We depend on the key handler for the secret
         self.secret = handler.getSecret(key)
 
-    def _post(self, params, connection=None, raiseIfInvalidNonce=False):
+    def _post(self, params, connection=None):
         params["nonce"] = self.handler.getNextNonce(self.key)
         encoded_params = urllib.parse.urlencode(params).encode()
 
@@ -166,19 +166,10 @@ class TradeAPI(object):
                 # attempting to use the same key, this mechanism will
                 # eventually fail and the InvalidNonce will be emitted so that
                 # you'll end up here reading this comment. :)
-
-                # The assumption is that the invalid nonce message looks like
-                # "invalid nonce parameter; on key:4, you sent:3"
-                s = err_message.split(",")
-                expected = int(s[-2].split(":")[1])
-                actual = int(s[-1].split(":")[1])
-                if raiseIfInvalidNonce:
-                    raise InvalidNonceException(method, expected, actual)
-
                 warnings.warn("The nonce in the key file is out of date;"
                               " attempting to correct.")
-                self.handler.setNextNonce(self.key, expected + 1)
-                return self._post(params, connection, True)
+                self.handler.setNextNonce(self.key, params["nonce"] + 1)
+                return self._post(params, connection)
             elif "no orders" in err_message and method == "ActiveOrders":
                 # ActiveOrders returns failure if there are no orders;
                 # intercept this and return an empty dict.
