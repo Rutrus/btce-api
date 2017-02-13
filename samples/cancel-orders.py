@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import sys
 import btceapi
 
@@ -7,19 +7,19 @@ import btceapi
 # pair and type will be canceled.
 
 if len(sys.argv) < 4:
-    print "Usage: cancel_orders.py <key file> <pair> <order type>"
-    print "    key file - Path to a file containing key/secret/nonce data"
-    print "    pair - A currency pair, such as btc_usd"
-    print "    order type - Type of orders to process, either 'buy' or 'sell'"
+    print("Usage: cancel_orders.py <key file> <pair> <order type>")
+    print("    key file - Path to a file containing key/secret/nonce data")
+    print("    pair - A currency pair, such as btc_usd")
+    print("    order type - Type of orders to process, either 'buy' or 'sell'")
     sys.exit(1)
 
 key_file = sys.argv[1]
 pair = sys.argv[2]
-order_type = unicode(sys.argv[3])
+order_type = str(sys.argv[3])
 
 handler = btceapi.KeyHandler(key_file)
 for key in handler.keys:
-    print "Canceling orders for key %s" % key
+    print("Canceling orders for key %s" % key)
 
     t = btceapi.TradeAPI(key, handler)
 
@@ -29,11 +29,16 @@ for key in handler.keys:
         orders = t.activeOrders(pair=pair)
         for o in orders:
             if o.type == order_type:
+<<<<<<< HEAD
                 print "  Canceling %s %s order for %f @ %f" % (pair, order_type,
                                                                o.amount, o.rate)
+=======
+                print("  Canceling %s %s order for %f @ %f" % (pair, order_type,
+                    o.amount, o.rate))
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
                 t.cancelOrder(o.order_id)
 
         if not orders:
-            print "  There are no %s %s orders" % (pair, order_type)
+            print("  There are no %s %s orders" % (pair, order_type))
     except Exception as e:
-        print "  An error occurred: %s" % e
+        print("  An error occurred: %s" % e)

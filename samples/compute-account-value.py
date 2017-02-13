@@ -1,16 +1,16 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import sys
 import btceapi
 
 if len(sys.argv) < 2:
-    print "Usage: compute-account-value.py <key file>"
-    print "    key file - Path to a file containing key/secret/nonce data"
+    print("Usage: compute-account-value.py <key file>")
+    print("    key file - Path to a file containing key/secret/nonce data")
     sys.exit(1)
 
 key_file = sys.argv[1]
 with btceapi.KeyHandler(key_file, resaveOnDeletion=True) as handler:
     for key in handler.getKeys():
-        print "Computing value for key %s" % key
+        print("Computing value for key %s" % key)
 
         # NOTE: In future versions, the handler argument will be required.
         conn = btceapi.BTCEConnection()
@@ -28,7 +28,7 @@ with btceapi.KeyHandler(key_file, resaveOnDeletion=True) as handler:
             for currency in btceapi.all_currencies:
                 balance = getattr(r, "balance_" + currency)
                 if currency == "btc":
-                    print "\t%s balance: %s" % (currency.upper(), balance)
+                    print("\t%s balance: %s" % (currency.upper(), balance))
                     btc_total += balance
                 else:
                     pair = "%s_btc" % currency
@@ -40,12 +40,17 @@ with btceapi.KeyHandler(key_file, resaveOnDeletion=True) as handler:
 
                     bal_str = btceapi.formatCurrency(balance, pair)
                     btc_str = btceapi.formatCurrency(btc_equiv, "btc_usd")
-                    print "\t%s balance: %s (~%s BTC)" % (currency.upper(),
-                                                          bal_str, btc_str)
+                    print("\t%s balance: %s (~%s BTC)" % (currency.upper(),
+                                                          bal_str, btc_str))
                     btc_total += btc_equiv
 
+<<<<<<< HEAD
             print "\tCurrent value of open orders:"
             orders = t.activeOrders(connection=conn)
+=======
+            print("\tCurrent value of open orders:")
+            orders = t.activeOrders(connection = conn)
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
             if orders:
                 for o in orders:
                     c1, c2 = o.pair.split("_")
@@ -55,23 +60,28 @@ with btceapi.KeyHandler(key_file, resaveOnDeletion=True) as handler:
                     else:
                         btc_equiv = c2_equiv / exchange_rates["btc_%s" % c2]
 
+<<<<<<< HEAD
                     btc_str = btceapi.formatCurrency(btc_equiv, o.pair)
                     print "\t\t%s %s %s @ %s (~%s BTC)" % (o.type, o.amount,
+=======
+                    btc_str = btceapi.formatCurrency(btc_equiv, pair)
+                    print("\t\t%s %s %s @ %s (~%s BTC)" % (o.type, o.amount,
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
                                                            o.pair, o.rate,
-                                                           btc_str)
+                                                           btc_str))
                     btc_total += btc_equiv
             else:
-                print "\t\tThere are no open orders."
+                print("\t\tThere are no open orders.")
 
             btc_str = btceapi.formatCurrency(btc_total, "btc_usd")
-            print "\n\tTotal estimated value: %s BTC" % btc_str
+            print("\n\tTotal estimated value: %s BTC" % btc_str)
             for fiat in ("usd", "eur", "rur"):
                 fiat_pair = "btc_%s" % fiat
                 fiat_total = btc_total * exchange_rates[fiat_pair]
                 fiat_str = btceapi.formatCurrencyDigits(fiat_total, 2)
-                print "\t                       %s %s" % (fiat_str,
-                                                          fiat.upper())
+                print("\t                       %s %s" % (fiat_str,
+                                                          fiat.upper()))
 
         except Exception as e:
-            print "  An error occurred: %s" % e
+            print("  An error occurred: %s" % e)
             raise e

@@ -25,9 +25,15 @@ class KeyData(object):
             raise InvalidNonceException('Nonces cannot be greater than %d' %
                                         self.MAX_NONCE_VALUE)
 
+<<<<<<< HEAD
         self.nonce = newNonce
 
         return self.nonce
+=======
+    def close(self):
+        if self.resaveOnDeletion:
+            self.save(self.filename)
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
 
     def incrementNonce(self):
         if self.nonce >= self.MAX_NONCE_VALUE:
@@ -49,9 +55,10 @@ class AbstractKeyHandler(object):
 
     @property
     def keys(self):
-        return self._keys.keys()
+        return list(self._keys.keys())
 
     def getKeys(self):
+<<<<<<< HEAD
         return self.keys
 
     # Should load the keys with their secrets and nonces from the datastore
@@ -74,6 +81,14 @@ class AbstractKeyHandler(object):
 
     def __exit__(self, *_args):
         self.close()
+=======
+        return list(self._keys.keys())
+
+    def save(self, filename):
+        f = open(filename, "wt", encoding="utf-8")
+        for k, data in list(self._keys.items()):
+            f.write("%s\n%s\n%d\n" % (k, data.secret, data.nonce))
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
 
     def addKey(self, key, secret, next_nonce):
         self._keys[key] = KeyData(secret, next_nonce)

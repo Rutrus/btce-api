@@ -1,7 +1,11 @@
 # Copyright (c) 2013-2015 Alan McIntyre
 
+<<<<<<< HEAD
 import decimal
 import httplib
+=======
+import http.client
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
 import json
 import re
 import os
@@ -107,6 +111,7 @@ BODY_COOKIE_RE = re.compile(r'document\.cookie="a=([a-f0-9]{32});path=/;";')
 
 class BTCEConnection:
     def __init__(self, timeout=30):
+<<<<<<< HEAD
         self._timeout = timeout
         self.setup_connection()
 
@@ -120,6 +125,9 @@ class BTCEConnection:
           self.conn.set_tunnel(btce_domain)
         else:
           self.conn = httplib.HTTPSConnection(btce_domain, timeout=self._timeout)
+=======
+        self.conn = http.client.HTTPSConnection(btce_domain, timeout=timeout)
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
         self.cookie = None
 
     def close(self):
@@ -143,7 +151,7 @@ class BTCEConnection:
         if match:
             self.cookie = "__cfduid=" + match.group(1)
 
-        match = BODY_COOKIE_RE.search(response.read())
+        match = BODY_COOKIE_RE.search(response.read().decode())
         if match:
             if self.cookie != "":
                 self.cookie += '; '
@@ -160,6 +168,7 @@ class BTCEConnection:
 
             headers.update({"Cookie": self.cookie})
 
+<<<<<<< HEAD
         try:
             self.conn.request("POST", url, params, headers)
             response = self.conn.getresponse()
@@ -173,6 +182,10 @@ class BTCEConnection:
             self.conn.close()
             self.setup_connection()
             raise
+=======
+        self.conn.request("POST", url, params, headers)
+        response = self.conn.getresponse().read().decode()
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
 
         return response.read()
 
