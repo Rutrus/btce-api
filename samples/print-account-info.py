@@ -22,6 +22,7 @@ for key in handler.getKeys():
         for currency in btceapi.all_currencies:
             balance = getattr(r, "balance_" + currency)
 <<<<<<< HEAD
+<<<<<<< HEAD
             print "\t%s balance: %s" % (currency.upper(), balance)
         print "\tInformation rights: %r" % r.info_rights
         print "\tTrading rights: %r" % r.trade_rights
@@ -32,6 +33,8 @@ for key in handler.getKeys():
         print "\topen orders:"
         orders = t.activeOrders(connection=conn)
 =======
+=======
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
             print("\t%s balance: %s" % (currency.upper(), balance))
         print("\tInformation rights: %r" % r.info_rights)
         print("\tTrading rights: %r" % r.trade_rights)

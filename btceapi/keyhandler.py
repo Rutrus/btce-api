@@ -26,10 +26,13 @@ class KeyData(object):
                                         self.MAX_NONCE_VALUE)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         self.nonce = newNonce
 
         return self.nonce
 =======
+=======
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
     def close(self):
         if self.resaveOnDeletion:
             self.save(self.filename)
@@ -59,6 +62,7 @@ class AbstractKeyHandler(object):
 
     def getKeys(self):
 <<<<<<< HEAD
+<<<<<<< HEAD
         return self.keys
 
     # Should load the keys with their secrets and nonces from the datastore
@@ -82,6 +86,8 @@ class AbstractKeyHandler(object):
     def __exit__(self, *_args):
         self.close()
 =======
+=======
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
         return list(self._keys.keys())
 
     def save(self, filename):

@@ -65,7 +65,11 @@ def getTicker(pair, connection=None):
         ticker = Ticker(**response[u'ticker'])
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     return ticker
+=======
+    return Ticker(**response['ticker'])
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
 =======
     return Ticker(**response['ticker'])
 >>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31

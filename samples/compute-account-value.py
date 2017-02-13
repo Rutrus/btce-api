@@ -45,9 +45,12 @@ with btceapi.KeyHandler(key_file, resaveOnDeletion=True) as handler:
                     btc_total += btc_equiv
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             print "\tCurrent value of open orders:"
             orders = t.activeOrders(connection=conn)
 =======
+=======
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
             print("\tCurrent value of open orders:")
             orders = t.activeOrders(connection = conn)
 >>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
@@ -61,8 +64,13 @@ with btceapi.KeyHandler(key_file, resaveOnDeletion=True) as handler:
                         btc_equiv = c2_equiv / exchange_rates["btc_%s" % c2]
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                     btc_str = btceapi.formatCurrency(btc_equiv, o.pair)
                     print "\t\t%s %s %s @ %s (~%s BTC)" % (o.type, o.amount,
+=======
+                    btc_str = btceapi.formatCurrency(btc_equiv, pair)
+                    print("\t\t%s %s %s @ %s (~%s BTC)" % (o.type, o.amount,
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
 =======
                     btc_str = btceapi.formatCurrency(btc_equiv, pair)
                     print("\t\t%s %s %s @ %s (~%s BTC)" % (o.type, o.amount,

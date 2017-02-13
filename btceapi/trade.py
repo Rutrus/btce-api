@@ -169,6 +169,7 @@ class TradeAPI(object):
                 # eventually fail and the InvalidNonce will be emitted so that
                 # you'll end up here reading this comment. :)
 <<<<<<< HEAD
+<<<<<<< HEAD
 
                 # The assumption is that the invalid nonce message looks like
                 # "invalid nonce parameter; on key:4, you sent:3"
@@ -178,6 +179,8 @@ class TradeAPI(object):
                 if raiseIfInvalidNonce:
                     raise InvalidNonceException(method, expected, actual)
 
+=======
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
 =======
 >>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
                 warnings.warn("The nonce in the key file is out of date;"

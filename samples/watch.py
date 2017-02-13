@@ -25,9 +25,15 @@ class Chart(object):
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
 <<<<<<< HEAD
+<<<<<<< HEAD
         self.bid_line, = self.axes.plot(*zip(*self.bid),
                 linestyle='None', marker='o', color='red')
         self.ask_line, = self.axes.plot(*zip(*self.ask),
+=======
+        self.bid_line, = self.axes.plot(*list(zip(*self.bid)), \
+                linestyle='None', marker='o', color='red')
+        self.ask_line, = self.axes.plot(*list(zip(*self.ask)), \
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
 =======
         self.bid_line, = self.axes.plot(*list(zip(*self.bid)), \
                 linestyle='None', marker='o', color='red')

@@ -30,8 +30,13 @@ for key in handler.keys:
         for o in orders:
             if o.type == order_type:
 <<<<<<< HEAD
+<<<<<<< HEAD
                 print "  Canceling %s %s order for %f @ %f" % (pair, order_type,
                                                                o.amount, o.rate)
+=======
+                print("  Canceling %s %s order for %f @ %f" % (pair, order_type,
+                    o.amount, o.rate))
+>>>>>>> 5e0f0f15ad5a57ec0b7cd6dd3e7e9cbfe68c1f31
 =======
                 print("  Canceling %s %s order for %f @ %f" % (pair, order_type,
                     o.amount, o.rate))
